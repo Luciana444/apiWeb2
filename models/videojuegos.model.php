@@ -38,4 +38,11 @@ class VideojuegosModel{
         $sentencia =  $this->db->prepare("DELETE FROM videojuegos WHERE id = ?");
         $sentencia->execute([$id]);
     }
+
+    function EditarVideojuego($nombre,$fecha_de_lanzamiento,$descripcion,$caracteristica,$id_genero,$id){
+        $sentencia =  $this->db->prepare("UPDATE videojuegos SET nombre = ?, fecha_de_lanzamiento = ?, descripcion = ?, caracteristica = ?, id_genero = ? WHERE id = ?");
+        $sentencia->execute([$nombre,$fecha_de_lanzamiento,$descripcion,$caracteristica,$id_genero,$id]);
+
+        return $this->GetVideojuego($id);
+    }
 }
