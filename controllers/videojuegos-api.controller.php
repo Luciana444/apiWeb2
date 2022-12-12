@@ -83,21 +83,21 @@ class VideojuegosApiController{
 
     public function EditarVideojuego($params = null){
         $id = $params[':ID'];
-        $videojuego = $this->model->GetVideojuego($id);
-        if (!is_numeric($id)) {
-            $this->view->respuesta("porfavor ingrese un id valido de tipo numero", 404);
-            die();
-        }
         $videojuego = $this->getData();
-        if (empty($videojuego->nombre) || empty($videojuego->fecha_de_lanzamiento) || empty($videojuego->descripcion) || empty($videojuego->caracteristica) || empty($videojuego->id_genero) || empty($videojuego->id)) {
-            $this->view->respuesta("Complete todos los campos", 400);
-        } else {
-            $id = $this->model->EditarVideojuego($videojuego->nombre, $videojuego->fecha_de_lanzamiento, $videojuego->descripcion, $videojuego->caracteristica, $videojuego->id_genero, $videojuego->id);
-            if (!empty($id)) {
-                $this->view->respuesta("videojuego con id=$id->id actualizado con exito", 200);
-            } else {
-                $this->view->respuesta("ingrese un id valido", 404);
+        if(is_numeric($id)){
+            if (!empty($videojuego->nombre) || !empty($videojuego->fecha_de_lanzamiento) || !empty($videojuego->descripcion) || !empty($videojuego->caracteristica) || !empty($videojuego->id_genero) || !empty($videojuego->id)){
+                $id = $this->model->GetVideojuego($id);
+                if($id){
+                    $this->model->EditarVideojuego($videojuego->nombre,$videojuego->fecha_de_lanzamiento,$videojuego->descripcion,$videojuego->caracteristica,$videojuego->id_genero,$videojuego->id);
+                    $this->view->respuesta("exito");
+                }else{
+                    $this->view->respuesta("no existe videojuego cone ese id", 404);
+                }
+            }else{
+                $this->view->respuesta("complete", 404);
             }
+        }else{
+            $this->view->respuesta("numero", 404);
         }
     }
 }
